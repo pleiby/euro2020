@@ -1,0 +1,273 @@
+---
+title: "Euro 2020"
+author: "Paul N. Leiby"
+date: "6/29/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Departs from script by George Pepis, 
+[Who Is Going To Win The Euro 2020](https://predictivehacks.com/who-is-going-to-win-the-euro-2020/), June 24, 2021
+
+```{r EUFArankings}
+# get the UEFA Ranking
+# These and the assumed standard deviation are the key assumptions for the simulation outcome
+
+ranking <- list(
+  bel = 1783,
+  fra = 1757,
+  eng = 1687,
+  por = 1666,
+  esp = 1648,
+  ita = 1642,
+  den = 1632,
+  ger = 1609,
+  sui = 1606,
+  cro = 1606,
+  net = 1598,
+  wal = 1570,
+  swe = 1570,
+  aus = 1523,
+  ukr = 1515,
+  cze = 1459
+)
+```
+
+```{r}
+# get the range of the max UEFA ranking (Belgium) minus the minimum (San Marino) and devide it by 6
+# assuming that 6 sigma is the range
+stdev <- (1783 - 805) / 6
+
+sim_champion <- c()
+sim_iters <- 10000
+```
+
+### Initial Team Pairings
+
+Can experiment with alternative staring pairings
+
+```{r}
+  teams_game1 <- c("bel", "por")
+  teams_game2 <- c("ita", "aus")
+  teams_game3 <- c("fra", "sui")
+  teams_game4 <- c("cro", "esp")
+  teams_game5 <- c("swe", "ukr")
+  teams_game6 <- c("eng", "ger")
+  teams_game7 <- c("net", "cze")
+  teams_game8 <- c("wal", "den")
+```
+
+````{r}
+for (i in 1:sim_iters) {
+
+  #######################
+  #### Final 16
+  #######################
+
+  # game bel vs por
+  teams_game1 <- c("bel", "por")
+  game1 <- rnorm(1, ranking[[teams_game1[1]]], stdev) > rnorm(1, ranking[[teams_game1[2]]], stdev)
+  if (game1) {
+    qualified_game1 <- teams_game1[1]
+  } else {
+    qualified_game1 <- teams_game1[2]
+  }
+
+  qualified_game1
+
+
+  # game ita vs aus
+  teams_game2 <- c("ita", "aus")
+  game2 <- rnorm(1, ranking[[teams_game2[1]]], stdev) > rnorm(1, ranking[[teams_game2[2]]], stdev)
+  if (game2) {
+    qualified_game2 <- teams_game2[1]
+  } else {
+    qualified_game2 <- teams_game2[2]
+  }
+
+  qualified_game2
+
+
+  # game fra vs sui
+  teams_game3 <- c("fra", "sui")
+  game3 <- rnorm(1, ranking[[teams_game3[1]]], stdev) > rnorm(1, ranking[[teams_game3[2]]], stdev)
+  if (game3) {
+    qualified_game3 <- teams_game3[1]
+  } else {
+    qualified_game3 <- teams_game3[2]
+  }
+
+  qualified_game3
+
+
+  # game cro vs esp
+  teams_game4 <- c("cro", "esp")
+  game4 <- rnorm(1, ranking[[teams_game4[1]]], stdev) > rnorm(1, ranking[[teams_game4[2]]], stdev)
+  if (game4) {
+    qualified_game4 <- teams_game4[1]
+  } else {
+    qualified_game4 <- teams_game4[2]
+  }
+
+  qualified_game4
+
+
+
+  # game swe vs ukr
+  teams_game5 <- c("swe", "ukr")
+  game5 <- rnorm(1, ranking[[teams_game5[1]]], stdev) > rnorm(1, ranking[[teams_game5[2]]], stdev)
+  if (game5) {
+    qualified_game5 <- teams_game5[1]
+  } else {
+    qualified_game5 <- teams_game5[2]
+  }
+
+  qualified_game5
+
+
+  # game eng vs ger
+  teams_game6 <- c("eng", "ger")
+  game6 <- rnorm(1, ranking[[teams_game6[1]]], stdev) > rnorm(1, ranking[[teams_game6[2]]], stdev)
+  if (game6) {
+    qualified_game6 <- teams_game6[1]
+  } else {
+    qualified_game6 <- teams_game6[2]
+  }
+
+  qualified_game6
+
+
+  # game net vs cze
+  teams_game7 <- c("net", "cze")
+  game7 <- rnorm(1, ranking[[teams_game7[1]]], stdev) > rnorm(1, ranking[[teams_game7[2]]], stdev)
+  if (game7) {
+    qualified_game7 <- teams_game7[1]
+  } else {
+    qualified_game7 <- teams_game7[2]
+  }
+
+  qualified_game7
+
+
+  # game wal vs den
+  teams_game8 <- c("wal", "den")
+  game8 <- rnorm(1, ranking[[teams_game8[1]]], stdev) > rnorm(1, ranking[[teams_game8[2]]], stdev)
+  if (game8) {
+    qualified_game8 <- teams_game8[1]
+  } else {
+    qualified_game8 <- teams_game8[2]
+  }
+
+  qualified_game8
+
+
+
+  #######################
+  #### Final 8
+  #######################
+
+  teams_f8_1 <- c(qualified_game1, qualified_game2)
+  teams_f8_2 <- c(qualified_game3, qualified_game4)
+  teams_f8_3 <- c(qualified_game5, qualified_game6)
+  teams_f8_4 <- c(qualified_game7, qualified_game8)
+  game_f8_1 <- rnorm(1, ranking[[teams_f8_1[1]]], stdev) > rnorm(1, ranking[[teams_f8_1[2]]], stdev)
+  game_f8_2 <- rnorm(1, ranking[[teams_f8_2[1]]], stdev) > rnorm(1, ranking[[teams_f8_2[2]]], stdev)
+  game_f8_3 <- rnorm(1, ranking[[teams_f8_3[1]]], stdev) > rnorm(1, ranking[[teams_f8_3[2]]], stdev)
+  game_f8_4 <- rnorm(1, ranking[[teams_f8_4[1]]], stdev) > rnorm(1, ranking[[teams_f8_4[2]]], stdev)
+
+  if (game_f8_1) {
+    qualified_f8_1 <- teams_f8_1[1]
+  } else {
+    qualified_f8_1 <- teams_f8_1[2]
+  }
+
+  qualified_f8_1
+
+
+
+  if (game_f8_2) {
+    qualified_f8_2 <- teams_f8_2[1]
+  } else {
+    qualified_f8_2 <- teams_f8_2[2]
+  }
+
+  qualified_f8_2
+
+
+
+  if (game_f8_3) {
+    qualified_f8_3 <- teams_f8_3[1]
+  } else {
+    qualified_f8_3 <- teams_f8_3[2]
+  }
+
+  qualified_f8_3
+
+
+
+  if (game_f8_4) {
+    qualified_f8_4 <- teams_f8_4[1]
+  } else {
+    qualified_f8_4 <- teams_f8_4[2]
+  }
+
+  qualified_f8_4
+
+
+  #######################
+  #### Final 4
+  #######################
+
+  teams_f4_1 <- c(qualified_f8_1, qualified_f8_2)
+  teams_f4_2 <- c(qualified_f8_3, qualified_f8_4)
+  game_f4_1 <- rnorm(1, ranking[[teams_f4_1[1]]], stdev) > rnorm(1, ranking[[teams_f4_1[2]]], stdev)
+  game_f4_2 <- rnorm(1, ranking[[teams_f4_2[1]]], stdev) > rnorm(1, ranking[[teams_f4_2[2]]], stdev)
+
+  if (game_f4_1) {
+    qualified_f4_1 <- teams_f4_1[1]
+  } else {
+    qualified_f4_1 <- teams_f4_1[2]
+  }
+
+  qualified_f4_1
+
+
+
+  if (game_f4_2) {
+    qualified_f4_2 <- teams_f4_2[1]
+  } else {
+    qualified_f4_2 <- teams_f4_2[2]
+  }
+
+  qualified_f4_2
+
+
+  #######################
+  #### Final
+  #######################
+
+  teams_f <- c(qualified_f4_1, qualified_f4_2)
+  game_f <- rnorm(1, ranking[[teams_f[1]]], stdev) > rnorm(1, ranking[[teams_f[2]]], stdev)
+
+  if (game_f) {
+    champion <- teams_f[1]
+  } else {
+    champion <- teams_f[2]
+  }
+
+  sim_champion <- c(sim_champion, champion) # long character string (appending each time - slow)
+}
+
+
+prop.table(table(sim_champion)) * 100 # this counts proportion of each champion
+```
+```{r}
+rslts <- prop.table(table(sim_champion)) * 100
+class(sim_champion)
+```
+
