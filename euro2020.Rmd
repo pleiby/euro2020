@@ -39,7 +39,7 @@ ranking <- list(
 ```
 
 ```{r}
-# get the range of the max UEFA ranking (Belgium) minus the minimum (San Marino) and devide it by 6
+# get the range of the max UEFA ranking (Belgium) minus the minimum (San Marino) and divide it by 6
 # assuming that 6 sigma is the range
 stdev <- (1783 - 805) / 6
 
@@ -49,7 +49,7 @@ sim_iters <- 10000
 
 ### Initial Team Pairings
 
-Can experiment with alternative staring pairings
+Note: Can experiment with alternative starting pairings
 
 ```{r}
   teams_game1 <- c("bel", "por")
@@ -60,6 +60,33 @@ Can experiment with alternative staring pairings
   teams_game6 <- c("eng", "ger")
   teams_game7 <- c("net", "cze")
   teams_game8 <- c("wal", "den")
+  
+  teams_final16 <- list(
+    c("bel", "por"),
+    c("ita", "aus"),
+    c("fra", "sui"),
+    c("cro", "esp"),
+    c("swe", "ukr"),
+    c("eng", "ger"),
+    c("net", "cze"),
+    c("wal", "den")
+  )
+    
+    
+```
+
+```{r}
+j = 6
+teams <- teams_final16[[j]] # extract list element as char vec
+
+  if (rnorm(1, ranking[[teams[1]]], stdev) > rnorm(1, ranking[[teams[2]]], stdev)) {
+    qualified <- teams[1]
+  } else {
+    qualified <- teams[2]
+  }
+
+  qualified
+
 ```
 
 ````{r}
@@ -175,6 +202,8 @@ for (i in 1:sim_iters) {
   teams_f8_2 <- c(qualified_game3, qualified_game4)
   teams_f8_3 <- c(qualified_game5, qualified_game6)
   teams_f8_4 <- c(qualified_game7, qualified_game8)
+  
+  
   game_f8_1 <- rnorm(1, ranking[[teams_f8_1[1]]], stdev) > rnorm(1, ranking[[teams_f8_1[2]]], stdev)
   game_f8_2 <- rnorm(1, ranking[[teams_f8_2[1]]], stdev) > rnorm(1, ranking[[teams_f8_2[2]]], stdev)
   game_f8_3 <- rnorm(1, ranking[[teams_f8_3[1]]], stdev) > rnorm(1, ranking[[teams_f8_3[2]]], stdev)
